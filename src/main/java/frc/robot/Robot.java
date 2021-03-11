@@ -1,37 +1,51 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import frc.robot.controls.controllers.PSController;
+import frc.robot.controls.schemes.ControlScheme;
+import frc.robot.controls.schemes.SingleController;
+import frc.robot.subsystems.drive.SwerveDrive;
 
 public class Robot extends TimedRobot {
 
-    @Override
-    public void robotInit() {}
+    private ControlScheme controller;
+    private SwerveDrive drivetrain;
 
     @Override
-    public void robotPeriodic() {}
+    public void robotInit() {
+        controller = new SingleController(new PSController(0));
+
+        drivetrain = SwerveDrive.getInstance();
+        drivetrain.updateSensors();
+    }
 
     @Override
-    public void autonomousInit() {}
+    public void robotPeriodic() {
+
+    }
 
     @Override
-    public void autonomousPeriodic() {}
+    public void autonomousInit() {
+        drivetrain.updateSensors();
+    }
 
     @Override
-    public void teleopInit() {}
+    public void autonomousPeriodic() {
+
+    }
 
     @Override
-    public void teleopPeriodic() {}
+    public void teleopInit() {
+        drivetrain.updateSensors();
+    }
 
     @Override
-    public void disabledInit() {}
-
-    @Override
-    public void disabledPeriodic() {}
-
-    @Override
-    public void testInit() {}
-
-    @Override
-    public void testPeriodic() {}
+    public void teleopPeriodic() {
+        drivetrain.drive(
+            controller.getHorizontalVelocity(),
+            controller.getVerticalVelocity(),
+            controller.getAngularVelocity()
+        );
+    }
 
 }

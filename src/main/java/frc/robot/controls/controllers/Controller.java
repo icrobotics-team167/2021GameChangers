@@ -1,4 +1,4 @@
-package frc.robot.controllers;
+package frc.robot.controls.controllers;
 
 /**
  * For conversions between Xbox and PlayStation buttons, see the
