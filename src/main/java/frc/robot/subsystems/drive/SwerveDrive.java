@@ -3,10 +3,12 @@ package frc.robot.subsystems.drive;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.wpilibj.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.util.Units;
 
@@ -53,6 +55,8 @@ public class SwerveDrive {
 
     private AHRS navx;
 
+    private final SwerveDriveOdometry odometry;
+
     private SwerveDrive() {
         frontLeft = new SwerveModule(Locations.kFrontLeft, Ports.kFrontLeftDrive, Ports.kFrontLeftAngle);
         frontRight = new SwerveModule(Locations.kFrontRight, Ports.kFrontRightDrive, Ports.kFrontRightAngle);
@@ -74,6 +78,8 @@ public class SwerveDrive {
 
         navx.calibrate();
         navx.reset();
+
+        odometry = new SwerveDriveOdometry(kinematics, new Rotation2d(Units.degreesToRadians(getAngle())));
     }
 
     public void drive(double vx, double vy, double omega) {
@@ -92,6 +98,13 @@ public class SwerveDrive {
         frontRight.setTargetVelocity(states[1].speedMetersPerSecond, states[1].angle.getRadians());
         backLeft.setTargetVelocity(states[2].speedMetersPerSecond, states[2].angle.getRadians());
         backRight.setTargetVelocity(states[3].speedMetersPerSecond, states[3].angle.getRadians());
+
+        SwerveModuleState frontLeftState = frontLeft.getCurrentState();
+        SwerveModuleState frontRightState = frontRight.getCurrentState();
+        SwerveModuleState backLeftState = backLeft.getCurrentState();
+        SwerveModuleState backRightState = backRight.getCurrentState();
+
+        odometry.update(new Rotation2d(Units.degreesToRadians(getAngle())), frontLeftState, frontRightState, backLeftState, backRightState);
     }
 
     public void updateSensors() {
@@ -107,7 +120,13 @@ public class SwerveDrive {
     }
 
     public double getAngle() {
-        return navx.getAngle();
+        // By default, the navX associates + with clockwise, but WPILib uses + for counterclockwise (like in math),
+        // so we negate the angle to make the odometry work properly
+        return -navx.getAngle();
+    }
+
+    public Pose2d getPose() {
+        return odometry.getPoseMeters();
     }
 
 }

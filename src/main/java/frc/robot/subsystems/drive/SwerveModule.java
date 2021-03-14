@@ -8,6 +8,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.ControlType;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
+import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.util.Units;
 
 public class SwerveModule {
@@ -52,6 +53,7 @@ public class SwerveModule {
 
         angleMotor = new CANSparkMax(anglePort, MotorType.kBrushless);
         angleMotor.setIdleMode(IdleMode.kBrake);
+        // TODO Check whether these current limits can be lowered to 30 A without issue
         angleMotor.setSmartCurrentLimit(40);
         angleMotor.setSecondaryCurrentLimit(55);
         angleEncoder = angleMotor.getEncoder();
@@ -185,6 +187,10 @@ public class SwerveModule {
 
     public Translation2d getCurrentPosition() {
         return currentPosition;
+    }
+
+    public SwerveModuleState getCurrentState() {
+        return new SwerveModuleState(getVelocity(), new Rotation2d(angleEncoder.getPosition()));
     }
 
 }
