@@ -3,6 +3,7 @@ package frc.robot.subsystems.drive;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.kinematics.SwerveDriveKinematics;
@@ -14,8 +15,9 @@ public class SwerveDrive {
     public static final double kLength = Units.inchesToMeters(30); // m
     public static final double kWidth = Units.inchesToMeters(30); // m
     // NOTE Limit these values during early testing rather than directly slowing the output (after a test on blocks to avoid an accident).
-    public static final double kMaxVelocity = 3; // m/s
-    public static final double kMaxAngularVelocity = Math.PI; // rad/s
+    // NOTE We should test 3 m/s and Math.PI rad/s
+    public static final double kMaxVelocity = 1; // m/s
+    public static final double kMaxAngularVelocity = 2 / Math.hypot(kLength, kWidth); // rad/s
     public static final class Ports {
         public static final int kFrontLeftDrive = 8;
         public static final int kFrontLeftAngle = 7;
@@ -71,6 +73,7 @@ public class SwerveDrive {
         }
 
         navx.calibrate();
+        navx.reset();
     }
 
     public void drive(double vx, double vy, double omega) {
@@ -78,6 +81,11 @@ public class SwerveDrive {
         updateState();
 
         ChassisSpeeds speeds = new ChassisSpeeds(vx, vy, omega);
+
+        // TODO Try field-centric controls
+//        double angle = getAngle() % 360;
+//        ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(vx, vy, omega, Rotation2d.fromDegrees(angle))
+
         SwerveModuleState[] states = kinematics.toSwerveModuleStates(speeds);
 
         frontLeft.setTargetVelocity(states[0].speedMetersPerSecond, states[0].angle.getRadians());
@@ -96,6 +104,10 @@ public class SwerveDrive {
         for (SwerveModule module : modules) {
             module.updateState();
         }
+    }
+
+    public double getAngle() {
+        return navx.getAngle();
     }
 
 }
