@@ -9,11 +9,11 @@ public class Routine extends Action {
     private Queue<Action> actions;
     private Action current;
 
-    public Routine(Action... actions) {
-        this(-1, actions);
+    public Routine(Action[] actions) {
+        this(actions, -1);
     }
 
-    public Routine(double timeout, Action... actions) {
+    public Routine(Action[] actions, double timeout) {
         super(timeout);
         this.actions = new LinkedList<>(Arrays.asList(actions));
         setState(AutoState.STARTUP);
