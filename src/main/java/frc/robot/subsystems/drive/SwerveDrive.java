@@ -17,9 +17,10 @@ public class SwerveDrive {
     public static final double kLength = Units.inchesToMeters(30); // m
     public static final double kWidth = Units.inchesToMeters(30); // m
     // NOTE Limit these values during early testing rather than directly slowing the output (after a test on blocks to avoid an accident).
-    // NOTE We should test 3 m/s and Math.PI rad/s
+    // NOTE We should test 3 m/s, 2 * Math.PI rad/s, and Math.PI rad/s^2
     public static final double kMaxVelocity = 1; // m/s
     public static final double kMaxAngularVelocity = 2 / Math.hypot(kLength, kWidth); // rad/s
+    public static final double kMaxAngularAcceleration = Math.min(kMaxAngularVelocity, Math.PI); // rad/s^2
     public static final class Ports {
         public static final int kFrontLeftDrive = 8;
         public static final int kFrontLeftAngle = 7;
@@ -79,18 +80,20 @@ public class SwerveDrive {
         navx.calibrate();
         navx.reset();
 
-        odometry = new SwerveDriveOdometry(kinematics, new Rotation2d(Units.degreesToRadians(getAngle())));
+        odometry = new SwerveDriveOdometry(kinematics, Rotation2d.fromDegrees(getAngle()));
     }
 
     public void drive(double vx, double vy, double omega) {
-        updateSensors();
-        updateState();
-
-        ChassisSpeeds speeds = new ChassisSpeeds(vx, vy, omega);
-
         // TODO Try field-centric controls
 //        double angle = getAngle() % 360;
-//        ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(vx, vy, omega, Rotation2d.fromDegrees(angle))
+//        drive(ChassisSpeeds.fromFieldRelativeSpeeds(vx, vy, omega, Rotation2d.fromDegrees(angle)));
+
+        drive(new ChassisSpeeds(vx, vy, omega));
+    }
+
+    public void drive(ChassisSpeeds speeds) {
+        updateSensors();
+        updateState();
 
         SwerveModuleState[] states = kinematics.toSwerveModuleStates(speeds);
 
@@ -104,7 +107,7 @@ public class SwerveDrive {
         SwerveModuleState backLeftState = backLeft.getCurrentState();
         SwerveModuleState backRightState = backRight.getCurrentState();
 
-        odometry.update(new Rotation2d(Units.degreesToRadians(getAngle())), frontLeftState, frontRightState, backLeftState, backRightState);
+        odometry.update(Rotation2d.fromDegrees(getAngle()), frontLeftState, frontRightState, backLeftState, backRightState);
     }
 
     public void updateSensors() {
