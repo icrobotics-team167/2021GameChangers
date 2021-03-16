@@ -103,11 +103,11 @@ public class SwerveModule {
     public void setTargetAngle(double angle) {
         double currentAngle = angleEncoder.getPosition();
         double currentAngleSimplified = getAngle();
-        double newTargetAngle = angle + currentAngle - currentAngleSimplified;
+        double newTargetAngle = currentAngle + angle - currentAngleSimplified;
 
-        if (newTargetAngle - currentAngleSimplified > Math.PI) {
+        if (newTargetAngle - currentAngle >= Math.PI) {
             newTargetAngle -= 2 * Math.PI;
-        } else if (newTargetAngle - currentAngleSimplified < -Math.PI) {
+        } else if (newTargetAngle - currentAngle < -Math.PI) {
             newTargetAngle += 2 * Math.PI;
         }
 
