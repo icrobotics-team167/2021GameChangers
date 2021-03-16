@@ -110,6 +110,10 @@ public class SwerveDrive {
         odometry.update(Rotation2d.fromDegrees(getAngle()), frontLeftState, frontRightState, backLeftState, backRightState);
     }
 
+    public void resetPose(Pose2d pose) {
+        odometry.resetPosition(pose, Rotation2d.fromDegrees(getAngle()));
+    }
+
     public void updateSensors() {
         for (SwerveModule module : modules) {
             module.updateSensors();
