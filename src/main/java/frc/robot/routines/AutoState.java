@@ -1,4 +1,4 @@
-package frc.robot.actions;
+package frc.robot.routines;
 
 public enum AutoState {
     STARTUP, // Initialization of the Action

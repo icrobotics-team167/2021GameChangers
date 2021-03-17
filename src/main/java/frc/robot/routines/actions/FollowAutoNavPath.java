@@ -1,4 +1,4 @@
-package frc.robot.actions.auto;
+package frc.robot.routines.actions;
 
 import edu.wpi.first.wpilibj.controller.HolonomicDriveController;
 import edu.wpi.first.wpilibj.controller.PIDController;
@@ -7,11 +7,11 @@ import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
-import frc.robot.actions.Action;
-import frc.robot.actions.Timer;
+import frc.robot.routines.Action;
+import frc.robot.routines.Timer;
 import frc.robot.subsystems.drive.SwerveDrive;
 
-public class AutoNavPath extends Action {
+public class FollowAutoNavPath extends Action {
 
     private static final double kHorizontalP = 1;
     private static final double kHorizontalI = 0;
@@ -30,7 +30,7 @@ public class AutoNavPath extends Action {
     private final HolonomicDriveController controller;
     private final Timer timer;
 
-    public AutoNavPath(Trajectory trajectory) {
+    public FollowAutoNavPath(Trajectory trajectory) {
         super();
 
         drivetrain = SwerveDrive.getInstance();
@@ -40,6 +40,7 @@ public class AutoNavPath extends Action {
         PIDController horizontalController = new PIDController(kHorizontalP, kHorizontalI, kHorizontalD);
         PIDController verticalController = new PIDController(kVerticalP, kVerticalI, kVerticalD);
         ProfiledPIDController angleController = new ProfiledPIDController(kAngleP, kAngleI, kAngleD, new TrapezoidProfile.Constraints(kMaxAngularVelocity, kMaxAngularAcceleration));
+        angleController.enableContinuousInput(-Math.PI, Math.PI);
         controller = new HolonomicDriveController(horizontalController, verticalController, angleController);
 
         timer = new Timer();
