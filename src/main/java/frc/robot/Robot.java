@@ -30,7 +30,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotPeriodic() {
-        // TODO Add dashboard logging here
+        // Odometry
         SmartDashboard.putNumber("X", SwerveDrive.getInstance().getPose().getX());
         SmartDashboard.putNumber("Y", SwerveDrive.getInstance().getPose().getY());
         SmartDashboard.putNumber("Theta", SwerveDrive.getInstance().getPose().getRotation().getDegrees());
