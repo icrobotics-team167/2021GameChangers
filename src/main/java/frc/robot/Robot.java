@@ -1,6 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.controls.controllers.PSController;
 import frc.robot.controls.schemes.ControlScheme;
 import frc.robot.controls.schemes.SingleController;
@@ -9,6 +10,7 @@ import frc.robot.routines.Routine;
 import frc.robot.routines.Teleop;
 import frc.robot.routines.actions.FollowAutoNavPath;
 import frc.robot.routines.paths.AutoNav;
+import frc.robot.subsystems.drive.SwerveDrive;
 
 public class Robot extends TimedRobot {
 
@@ -29,6 +31,9 @@ public class Robot extends TimedRobot {
     @Override
     public void robotPeriodic() {
         // TODO Add dashboard logging here
+        SmartDashboard.putNumber("X", SwerveDrive.getInstance().getPose().getX());
+        SmartDashboard.putNumber("Y", SwerveDrive.getInstance().getPose().getY());
+        SmartDashboard.putNumber("Theta", SwerveDrive.getInstance().getPose().getRotation().getDegrees());
     }
 
     @Override

@@ -1,5 +1,7 @@
 package frc.robot.routines;
 
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import frc.robot.controls.schemes.ControlScheme;
 import frc.robot.subsystems.drive.SwerveDrive;
 
@@ -17,6 +19,7 @@ public class Teleop extends Action {
     @Override
     public void init() {
         drivetrain.updateSensors();
+        drivetrain.resetPose(new Pose2d(0, 0, Rotation2d.fromDegrees(0)));
     }
 
     @Override

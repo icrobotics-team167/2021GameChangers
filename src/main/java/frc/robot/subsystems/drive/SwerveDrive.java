@@ -78,18 +78,17 @@ public class SwerveDrive {
             DriverStation.reportError("Error initializing the navX over SPI: " + e.toString(), e.getStackTrace());
         }
 
-        navx.calibrate();
         navx.reset();
 
-        odometry = new SwerveDriveOdometry(kinematics, Rotation2d.fromDegrees(getAngle()));
+        odometry = new SwerveDriveOdometry(kinematics, Rotation2d.fromDegrees(getAngle()), new Pose2d(0, 0, Rotation2d.fromDegrees(0)));
     }
 
     public void drive(double vx, double vy, double omega) {
         // TODO Try field-centric controls
-//        double angle = getAngle() % 360;
-//        drive(ChassisSpeeds.fromFieldRelativeSpeeds(vx, vy, omega, Rotation2d.fromDegrees(angle)));
+        double angle = getAngle() % 360;
+        drive(ChassisSpeeds.fromFieldRelativeSpeeds(vx, vy, omega, Rotation2d.fromDegrees(angle)));
 
-        drive(new ChassisSpeeds(vx, vy, omega));
+        // drive(new ChassisSpeeds(vx, vy, omega));
     }
 
     public void drive(ChassisSpeeds speeds) {
@@ -138,6 +137,8 @@ public class SwerveDrive {
     }
 
     public Pose2d getPose() {
+        Pose2d pose = odometry.getPoseMeters();
+        pose = new
         return odometry.getPoseMeters();
     }
 
