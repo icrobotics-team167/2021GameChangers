@@ -6,7 +6,7 @@ import frc.robot.subsystems.drive.SwerveDrive;
 
 public class SingleController implements ControlScheme {
 
-    private static final Deadband kStickDeadband = new Deadband(0.04);
+    private static final Deadband kStickDeadband = new Deadband(0.05);
 
     private final Controller primary;
 
@@ -16,12 +16,12 @@ public class SingleController implements ControlScheme {
 
     @Override
     public double getHorizontalVelocity() {
-        return kStickDeadband.apply(primary.getLeftStickX()) * SwerveDrive.kMaxVelocity;
+        return kStickDeadband.apply(primary.getLeftStickX()) * (SwerveDrive.kMaxVelocity / Math.sqrt(2));
     }
 
     @Override
     public double getVerticalVelocity() {
-        return kStickDeadband.apply(primary.getLeftStickY()) * SwerveDrive.kMaxVelocity;
+        return kStickDeadband.apply(primary.getLeftStickY()) * (SwerveDrive.kMaxVelocity / Math.sqrt(2));
     }
 
     @Override

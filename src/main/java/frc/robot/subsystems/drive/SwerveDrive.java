@@ -17,11 +17,11 @@ public class SwerveDrive {
     public static final double kLength = Units.inchesToMeters(30 - 2 * 3.25); // 23.5 m
     public static final double kWidth = Units.inchesToMeters(30 - 2 * 3.25); // 23.5 m
     // NOTE Limit these values during early testing rather than directly slowing the output (after a test on blocks to avoid an accident).
-    // NOTE We should test 3 m/s, 3 m/s^2, Math.PI rad/s, and Math.PI rad/s^2
+    // NOTE We should test 3 m/s and 3 m/s^2
     public static final double kMaxVelocity = 1; // m/s
     public static final double kMaxAcceleration = 1; // m/s^2
-    public static final double kMaxAngularVelocity = 2 / Math.hypot(kLength, kWidth); // rad/s
-    public static final double kMaxAngularAcceleration = 2 / Math.hypot(kLength, kWidth); // rad/s^2
+    public static final double kMaxAngularVelocity = Math.PI; // rad/s
+    public static final double kMaxAngularAcceleration = Math.PI; // rad/s^2
     public static final class Ports {
         public static final int kFrontLeftDrive = 8;
         public static final int kFrontLeftAngle = 7;
