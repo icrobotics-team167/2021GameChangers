@@ -17,7 +17,11 @@ public class SwerveModule {
     public static final double kDriveMotorReduction = 8.31;
     public static final double kAngleMotorReduction = 18.0;
 
-    // TODO Try different PID constants to get rid of jerkiness in translational motion (WPILib example uses 1, 0, 0)
+    // TODO Tune these gains
+    private static final double kDriveP = 1.5;
+    private static final double kDriveI = 0;
+    private static final double kDriveD = 0.5;
+
     private static final double kAngleP = 1.5;
     private static final double kAngleI = 0;
     private static final double kAngleD = 0.5;
@@ -26,6 +30,7 @@ public class SwerveModule {
 
     private final CANSparkMax driveMotor;
     private final CANEncoder driveEncoder;
+    private final CANPIDController driveController;
 
     private final CANSparkMax angleMotor;
     private final CANEncoder angleEncoder;
@@ -50,6 +55,11 @@ public class SwerveModule {
         driveEncoder = driveMotor.getEncoder();
         driveEncoder.setPositionConversionFactor(kWheelDiameter * Math.PI / kDriveMotorReduction);
         driveEncoder.setVelocityConversionFactor(kWheelDiameter * Math.PI / kDriveMotorReduction * (1 / 60D));
+
+        driveController = driveMotor.getPIDController();
+        driveController.setP(kDriveP);
+        driveController.setI(kDriveI);
+        driveController.setD(kDriveD);
 
         angleMotor = new CANSparkMax(anglePort, MotorType.kBrushless);
         angleMotor.setIdleMode(IdleMode.kBrake);
@@ -97,7 +107,7 @@ public class SwerveModule {
     }
 
     public void setDriveOutput(double speed) {
-        driveMotor.set(speed);
+        driveController.setReference(speed, ControlType.kVelocity);
     }
 
     public void setTargetAngle(double angle) {
