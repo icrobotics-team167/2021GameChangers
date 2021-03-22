@@ -13,5 +13,14 @@
     "**/.settings": true,
     "**/.factorypath": true,
     "**/*~": true
+  },
+  "files.autoSave": "afterDelay",
+  "[java]": {
+    "editor.insertSpaces": true,
+    "editor.tabSize": 4
+  },
+  "[json]": {
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2
   }
 }
