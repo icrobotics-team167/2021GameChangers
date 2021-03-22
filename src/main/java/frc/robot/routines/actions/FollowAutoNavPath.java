@@ -3,7 +3,6 @@ package frc.robot.routines.actions;
 import edu.wpi.first.wpilibj.controller.HolonomicDriveController;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
-import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
@@ -55,8 +54,7 @@ public class FollowAutoNavPath extends Action {
     @Override
     public void periodic() {
         Trajectory.State goal = trajectory.sample(timer.get());
-        // The default Rotation2d constructor keeps the robot facing forward for the entire trajectory
-        ChassisSpeeds speeds = controller.calculate(drivetrain.getPose(), goal, new Rotation2d());
+        ChassisSpeeds speeds = controller.calculate(drivetrain.getPose(), goal, goal.poseMeters.getRotation());
         drivetrain.drive(speeds);
     }
 
