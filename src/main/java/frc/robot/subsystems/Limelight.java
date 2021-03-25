@@ -5,7 +5,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class Limelight {
 
-    private enum LEDMode {
+    public enum LEDMode {
         PIPELINE(0),
         OFF(1),
         BLINK(2),
@@ -18,7 +18,7 @@ public class Limelight {
         }
     }
 
-    private enum OperationMode {
+    public enum OperationMode {
         VISION(0),
         CAMERA(1);
 
@@ -29,7 +29,7 @@ public class Limelight {
         }
     }
 
-    private enum Pipeline {
+    public enum Pipeline {
         POWER_CELL(0),
         POWER_PORT(1);
 
