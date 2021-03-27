@@ -13,8 +13,7 @@ import java.util.List;
 
 public class AutoNav {
 
-    private static final TrajectoryConfig config = new TrajectoryConfig(SwerveDrive.kMaxVelocity, SwerveDrive.kMaxAcceleration)
-        .setKinematics(SwerveDrive.getInstance().getKinematics());
+    private static final TrajectoryConfig config = SwerveDrive.getInstance().getTrajectoryConfig();
 
     public static final Trajectory kBarrelRacingPath = TrajectoryGenerator.generateTrajectory(
         new Pose2d(Units.feetToMeters(2.5), Units.feetToMeters(7.5), new Rotation2d(0)),
@@ -66,25 +65,6 @@ public class AutoNav {
             new Translation2d(Units.feetToMeters(22.5), Units.feetToMeters(12.5))
         ),
         new Pose2d(Units.feetToMeters(27.5), Units.feetToMeters(7.5), new Rotation2d(0)),
-        config
-    );
-
-    public static final Trajectory kTestLine = TrajectoryGenerator.generateTrajectory(
-        new Pose2d(Units.feetToMeters(2.5), Units.feetToMeters(7.5), new Rotation2d(0)),
-        List.of(
-            new Translation2d(Units.feetToMeters(5), Units.feetToMeters(7.5)),
-            new Translation2d(Units.feetToMeters(7.5), Units.feetToMeters(7.5))
-        ),
-        new Pose2d(Units.feetToMeters(10), Units.feetToMeters(7.5), new Rotation2d(0)),
-        config
-    );
-
-    public static final Trajectory kTestCurve = TrajectoryGenerator.generateTrajectory(
-        new Pose2d(Units.feetToMeters(2.5), Units.feetToMeters(7.5), new Rotation2d(0)),
-        List.of(
-            new Translation2d(Units.feetToMeters(2.5 + (5 / Math.sqrt(2))), Units.feetToMeters(2.5 + (5 / Math.sqrt(2))))
-        ),
-        new Pose2d(Units.feetToMeters(7.5), Units.feetToMeters(2.5), new Rotation2d(0)),
         config
     );
 

@@ -3,6 +3,7 @@ package frc.robot.routines.actions;
 import edu.wpi.first.wpilibj.controller.HolonomicDriveController;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
@@ -10,7 +11,7 @@ import frc.robot.routines.Action;
 import frc.robot.routines.Timer;
 import frc.robot.subsystems.drive.SwerveDrive;
 
-public class FollowAutoNavPath extends Action {
+public class FollowPath extends Action {
 
     private static final double kHorizontalP = 1;
     private static final double kHorizontalI = 0;
@@ -28,8 +29,13 @@ public class FollowAutoNavPath extends Action {
     private final Trajectory trajectory;
     private final HolonomicDriveController controller;
     private final Timer timer;
+    private final boolean stayStraight;
 
-    public FollowAutoNavPath(Trajectory trajectory) {
+    public FollowPath(Trajectory trajectory) {
+        this(trajectory, false);
+    }
+
+    public FollowPath(Trajectory trajectory, boolean stayStraight) {
         super();
 
         drivetrain = SwerveDrive.getInstance();
@@ -43,6 +49,8 @@ public class FollowAutoNavPath extends Action {
         controller = new HolonomicDriveController(horizontalController, verticalController, angleController);
 
         timer = new Timer();
+
+        this.stayStraight = stayStraight;
     }
 
     @Override
@@ -54,7 +62,7 @@ public class FollowAutoNavPath extends Action {
     @Override
     public void periodic() {
         Trajectory.State goal = trajectory.sample(timer.get());
-        ChassisSpeeds speeds = controller.calculate(drivetrain.getPose(), goal, goal.poseMeters.getRotation());
+        ChassisSpeeds speeds = controller.calculate(drivetrain.getPose(), goal, stayStraight ? new Rotation2d() : goal.poseMeters.getRotation());
         drivetrain.drive(speeds);
     }
 

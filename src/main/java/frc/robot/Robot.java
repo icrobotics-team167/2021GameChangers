@@ -10,8 +10,12 @@ import frc.robot.routines.Action;
 import frc.robot.routines.Routine;
 import frc.robot.routines.Simulation;
 import frc.robot.routines.Teleop;
-import frc.robot.routines.actions.FollowAutoNavPath;
+import frc.robot.routines.actions.ChooseGalacticSearchPath;
+import frc.robot.routines.actions.FollowPath;
 import frc.robot.routines.paths.AutoNav;
+import frc.robot.routines.paths.GalacticSearch;
+import frc.robot.routines.paths.TestPaths;
+import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.drive.SwerveDrive;
 
 public class Robot extends TimedRobot {
@@ -26,13 +30,21 @@ public class Robot extends TimedRobot {
         controls = new SingleController(new PSController(0));
 
         auto = new Routine(new Action[]{
-            new FollowAutoNavPath(AutoNav.kTestLine),
+            // Galactic Search Challenge
+//            new ChooseGalacticSearchPath(),
+//            new FollowPath(GalacticSearch.getPath()),
+
+            // AutoNav Challenge
+//            new FollowPath(AutoNav.kBarrelRacingPath, true),
+
+            // Testing
+            new FollowPath(TestPaths.kLine),
         });
 
         teleop = new Teleop(controls);
 
         if (RobotBase.isSimulation()) {
-            simulation = new Simulation(AutoNav.kBarrelRacingPath);
+            simulation = new Simulation(TestPaths.kLine);
         }
     }
 
@@ -41,7 +53,7 @@ public class Robot extends TimedRobot {
         // Odometry
         SmartDashboard.putNumber("X", SwerveDrive.getInstance().getPose().getX());
         SmartDashboard.putNumber("Y", SwerveDrive.getInstance().getPose().getY());
-        SmartDashboard.putNumber("Theta", SwerveDrive.getInstance().getPose().getRotation().getDegrees());
+        SmartDashboard.putNumber("Angle", SwerveDrive.getInstance().getPose().getRotation().getDegrees());
     }
 
     @Override
@@ -66,7 +78,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void disabledInit() {
-        // TODO Disable Limelight here
+        Limelight.getInstance().setLEDMode(Limelight.LEDMode.OFF);
     }
 
     @Override
