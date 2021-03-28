@@ -15,8 +15,9 @@ import edu.wpi.first.wpilibj.util.Units;
 
 public class SwerveDrive {
 
-    public static final double kLength = Units.inchesToMeters(23 - 2 * 3.25); // 16.5 m
-    public static final double kWidth = Units.inchesToMeters(23 - 2 * 3.25); // 16.5 m
+    public static final double kLength = Units.inchesToMeters(23 - 2 * 3.25); // 16.5 in
+    public static final double kWidth = Units.inchesToMeters(23 - 2 * 3.25); // 16.5 in
+    public static final double kBumperThickness = Units.inchesToMeters(3.5);
     // NOTE Limit these values during early testing rather than directly slowing the output (after a test on blocks to avoid an accident).
     // NOTE We should test 3.3 m/s and 3.3 m/s^2 (the theoretical free speed is 11.9 ft/s = 3.627 m/s)
     public static final double kMaxVelocity = 1; // m/s
