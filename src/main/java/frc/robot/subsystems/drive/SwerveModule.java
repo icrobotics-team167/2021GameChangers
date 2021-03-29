@@ -9,6 +9,7 @@ import com.revrobotics.ControlType;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Units;
 
 public class SwerveModule {
@@ -28,10 +29,12 @@ public class SwerveModule {
 
     private final Translation2d location;
 
+    private final int drivePort;
     private final CANSparkMax driveMotor;
     private final CANEncoder driveEncoder;
     private final CANPIDController driveController;
 
+    private final int anglePort;
     private final CANSparkMax angleMotor;
     private final CANEncoder angleEncoder;
     private final CANPIDController angleController;
@@ -48,6 +51,7 @@ public class SwerveModule {
     public SwerveModule(Translation2d location, int drivePort, int anglePort) {
         this.location = location;
 
+        this.drivePort = drivePort;
         driveMotor = new CANSparkMax(drivePort, MotorType.kBrushless);
         driveMotor.setIdleMode(IdleMode.kBrake);
         driveMotor.setSmartCurrentLimit(40);
@@ -61,6 +65,7 @@ public class SwerveModule {
         driveController.setI(kDriveI);
         driveController.setD(kDriveD);
 
+        this.anglePort = anglePort;
         angleMotor = new CANSparkMax(anglePort, MotorType.kBrushless);
         angleMotor.setIdleMode(IdleMode.kBrake);
         // TODO Check whether these current limits can be lowered to 30 A without issue
@@ -108,6 +113,8 @@ public class SwerveModule {
 
     public void setDriveOutput(double speed) {
         driveController.setReference(speed, ControlType.kVelocity);
+        SmartDashboard.putNumber("module/" + drivePort + "/targetSpeed", speed);
+        SmartDashboard.putNumber("module/" + drivePort + "/actualSpeed", getVelocity());
     }
 
     public void setTargetAngle(double angle) {
