@@ -12,6 +12,7 @@ import frc.robot.routines.Simulation;
 import frc.robot.routines.Teleop;
 import frc.robot.routines.actions.ChooseGalacticSearchPath;
 import frc.robot.routines.actions.FollowPath;
+import frc.robot.routines.actions.TuneMotorSpeeds;
 import frc.robot.routines.paths.AutoNav;
 import frc.robot.routines.paths.GalacticSearch;
 import frc.robot.routines.paths.TestPaths;
@@ -38,7 +39,8 @@ public class Robot extends TimedRobot {
 //            new FollowPath(AutoNav.kBarrelRacingPath, true),
 
             // Testing
-            new FollowPath(TestPaths.kLine),
+            new TuneMotorSpeeds(1.5, 5, 1),
+//            new FollowPath(TestPaths.kLine),
         });
 
         teleop = new Teleop(controls);
