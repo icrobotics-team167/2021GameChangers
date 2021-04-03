@@ -28,7 +28,7 @@ public class DoubleController implements ControlScheme {
 
     @Override
     public double getAngularVelocity() {
-        return kStickDeadband.apply(primary.getRightStickX()) * SwerveDrive.kMaxAngularVelocity;
+        return kStickDeadband.apply(-primary.getRightStickX()) * SwerveDrive.kMaxAngularVelocity;
     }
 
 }

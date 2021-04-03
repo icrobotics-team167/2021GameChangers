@@ -19,9 +19,10 @@ public class SwerveModule {
     public static final double kAngleMotorReduction = 18.0;
 
     // TODO Tune these gains
-    private static final double kDriveP = 1.5;
+    private static final double kDriveP = 0.25;
     private static final double kDriveI = 0;
-    private static final double kDriveD = 0.5;
+    private static final double kDriveD = 0;
+    private static final double kDriveF = 0.265;
 
     private static final double kAngleP = 1.5;
     private static final double kAngleI = 0;
@@ -54,6 +55,7 @@ public class SwerveModule {
         this.drivePort = drivePort;
         driveMotor = new CANSparkMax(drivePort, MotorType.kBrushless);
         driveMotor.setIdleMode(IdleMode.kBrake);
+        driveMotor.setInverted(false);
         driveMotor.setSmartCurrentLimit(40);
         driveMotor.setSecondaryCurrentLimit(55);
         driveEncoder = driveMotor.getEncoder();
@@ -64,10 +66,12 @@ public class SwerveModule {
         driveController.setP(kDriveP);
         driveController.setI(kDriveI);
         driveController.setD(kDriveD);
+        driveController.setFF(kDriveF);
 
         this.anglePort = anglePort;
         angleMotor = new CANSparkMax(anglePort, MotorType.kBrushless);
         angleMotor.setIdleMode(IdleMode.kBrake);
+        angleMotor.setInverted(false);
         // TODO Check whether these current limits can be lowered to 30 A without issue
         angleMotor.setSmartCurrentLimit(40);
         angleMotor.setSecondaryCurrentLimit(55);
