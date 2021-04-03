@@ -16,12 +16,12 @@ public class SingleController implements ControlScheme {
 
     @Override
     public double getHorizontalVelocity() {
-        return kStickDeadband.apply(-primary.getLeftStickX()) * (SwerveDrive.kMaxVelocity / Math.sqrt(2));
+        return kStickDeadband.apply(-primary.getLeftStickX()) * SwerveDrive.kMaxVelocity;
     }
 
     @Override
     public double getVerticalVelocity() {
-        return kStickDeadband.apply(primary.getLeftStickY()) * (SwerveDrive.kMaxVelocity / Math.sqrt(2));
+        return kStickDeadband.apply(primary.getLeftStickY()) * SwerveDrive.kMaxVelocity;
     }
 
     @Override
