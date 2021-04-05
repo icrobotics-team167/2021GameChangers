@@ -22,11 +22,12 @@ public class SwerveModule {
     private static final double kDriveP = 0.25;
     private static final double kDriveI = 0;
     private static final double kDriveD = 0;
-    private static final double kDriveF = 0.265;
+    private static final double kDriveFF = 0.265;
 
     private static final double kAngleP = 1.5;
     private static final double kAngleI = 0;
     private static final double kAngleD = 0.5;
+    private static final double kAngleFF = 0; // TODO Determine this value
 
     private final Translation2d location;
 
@@ -66,7 +67,7 @@ public class SwerveModule {
         driveController.setP(kDriveP);
         driveController.setI(kDriveI);
         driveController.setD(kDriveD);
-        driveController.setFF(kDriveF);
+        driveController.setFF(kDriveFF);
 
         this.anglePort = anglePort;
         angleMotor = new CANSparkMax(anglePort, MotorType.kBrushless);
@@ -83,6 +84,12 @@ public class SwerveModule {
         angleController.setP(kAngleP);
         angleController.setI(kAngleI);
         angleController.setD(kAngleD);
+        // TODO Uncomment this once the current FF gain is determined
+//        angleController.setFF(kAngleFF);
+
+        if (anglePort == 5) {
+            SmartDashboard.putNumber("module/kAngleFF", angleController.getFF());
+        }
     }
 
     public void updateState() {
@@ -117,8 +124,11 @@ public class SwerveModule {
 
     public void setDriveOutput(double speed) {
         driveController.setReference(speed, ControlType.kVelocity);
-        SmartDashboard.putNumber("module/" + drivePort + "/targetSpeed", speed);
-        SmartDashboard.putNumber("module/" + drivePort + "/actualSpeed", getVelocity());
+
+        if (drivePort == 5) {
+            SmartDashboard.putNumber("module/actualSpeed", getVelocity());
+            SmartDashboard.putNumber("module/targetSpeed", speed);
+        }
     }
 
     public void setTargetAngle(double angle) {
@@ -133,6 +143,11 @@ public class SwerveModule {
         }
 
         angleController.setReference(newTargetAngle, ControlType.kPosition);
+
+        if (anglePort == 6) {
+            SmartDashboard.putNumber("module/actualAngle", currentAngle);
+            SmartDashboard.putNumber("module/targetAngle", newTargetAngle);
+        }
     }
 
     public void setTargetVelocity(Translation2d velocity) {

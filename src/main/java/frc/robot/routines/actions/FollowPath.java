@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
 import frc.robot.routines.Action;
@@ -13,13 +14,14 @@ import frc.robot.subsystems.drive.SwerveDrive;
 
 public class FollowPath extends Action {
 
-    private static final double kHorizontalP = 1;
+    // TODO Tune these gains
+    private static final double kHorizontalP = 0;
     private static final double kHorizontalI = 0;
     private static final double kHorizontalD = 0;
-    private static final double kVerticalP = 1;
+    private static final double kVerticalP = 0;
     private static final double kVerticalI = 0;
     private static final double kVerticalD = 0;
-    private static final double kAngleP = 1;
+    private static final double kAngleP = 0;
     private static final double kAngleI = 0;
     private static final double kAngleD = 0;
     private static final double kMaxAngularVelocity = SwerveDrive.kMaxAngularVelocity;
@@ -46,7 +48,7 @@ public class FollowPath extends Action {
         PIDController verticalController = new PIDController(kVerticalP, kVerticalI, kVerticalD);
         ProfiledPIDController angleController = new ProfiledPIDController(kAngleP, kAngleI, kAngleD, new TrapezoidProfile.Constraints(kMaxAngularVelocity, kMaxAngularAcceleration));
         angleController.enableContinuousInput(-Math.PI, Math.PI);
-        controller = new HolonomicDriveController(horizontalController, verticalController, angleController);
+        controller = new HolonomicDriveController(verticalController, horizontalController, angleController);
 
         timer = new Timer();
 

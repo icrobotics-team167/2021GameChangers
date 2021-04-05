@@ -53,9 +53,9 @@ public class Robot extends TimedRobot {
     @Override
     public void robotPeriodic() {
         // Odometry
-        SmartDashboard.putNumber("Y (+Y is away from the driver station)", SwerveDrive.getInstance().getPose().getY());
-        SmartDashboard.putNumber("X (+X is left of the driver station)", SwerveDrive.getInstance().getPose().getX());
-        SmartDashboard.putNumber("Angle (+Angle is CCW)", SwerveDrive.getInstance().getPose().getRotation().getDegrees());
+        SmartDashboard.putNumber("Y (+ = forward)", SwerveDrive.getInstance().getPose().getY());
+        SmartDashboard.putNumber("X (+ = left)", SwerveDrive.getInstance().getPose().getX());
+        SmartDashboard.putNumber("Angle (+ = CCW)", SwerveDrive.getInstance().getPose().getRotation().getDegrees());
     }
 
     @Override
