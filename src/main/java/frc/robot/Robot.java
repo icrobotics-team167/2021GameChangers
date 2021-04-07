@@ -36,10 +36,10 @@ public class Robot extends TimedRobot {
 //            new FollowPath(GalacticSearch.getPath()),
 
             // AutoNav Challenge
-//            new FollowPath(AutoNav.kBarrelRacingPath, true),
+           new FollowPath(AutoNav.kBarrelRacingPath, false),
 
             // Testing
-            new TuneMotorSpeeds(1.5, 5, 1),
+//            new TuneMotorSpeeds(1.5, 5, 1)
 //            new FollowPath(TestPaths.kLine),
         });
 
@@ -53,8 +53,8 @@ public class Robot extends TimedRobot {
     @Override
     public void robotPeriodic() {
         // Odometry
-        SmartDashboard.putNumber("Y (+ = forward)", SwerveDrive.getInstance().getPose().getY());
-        SmartDashboard.putNumber("X (+ = left)", SwerveDrive.getInstance().getPose().getX());
+        SmartDashboard.putNumber("X (+ = forward)", SwerveDrive.getInstance().getPose().getX());
+        SmartDashboard.putNumber("Y (+ = left)", SwerveDrive.getInstance().getPose().getY());
         SmartDashboard.putNumber("Angle (+ = CCW)", SwerveDrive.getInstance().getPose().getRotation().getDegrees());
     }
 

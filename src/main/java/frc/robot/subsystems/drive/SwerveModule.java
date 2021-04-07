@@ -27,7 +27,7 @@ public class SwerveModule {
     private static final double kAngleP = 1.5;
     private static final double kAngleI = 0;
     private static final double kAngleD = 0.5;
-    private static final double kAngleFF = 0; // TODO Determine this value
+    private static final double kAngleFF = 0;
 
     private final Translation2d location;
 
@@ -84,12 +84,7 @@ public class SwerveModule {
         angleController.setP(kAngleP);
         angleController.setI(kAngleI);
         angleController.setD(kAngleD);
-        // TODO Uncomment this once the current FF gain is determined
-//        angleController.setFF(kAngleFF);
-
-        if (anglePort == 5) {
-            SmartDashboard.putNumber("module/kAngleFF", angleController.getFF());
-        }
+        angleController.setFF(kAngleFF);
     }
 
     public void updateState() {

@@ -15,13 +15,13 @@ import frc.robot.subsystems.drive.SwerveDrive;
 public class FollowPath extends Action {
 
     // TODO Tune these gains
-    private static final double kHorizontalP = 0;
+    private static final double kHorizontalP = 1;
     private static final double kHorizontalI = 0;
     private static final double kHorizontalD = 0;
-    private static final double kVerticalP = 0;
+    private static final double kVerticalP = 1;
     private static final double kVerticalI = 0;
     private static final double kVerticalD = 0;
-    private static final double kAngleP = 0;
+    private static final double kAngleP = 1.5;
     private static final double kAngleI = 0;
     private static final double kAngleD = 0;
     private static final double kMaxAngularVelocity = SwerveDrive.kMaxAngularVelocity;
