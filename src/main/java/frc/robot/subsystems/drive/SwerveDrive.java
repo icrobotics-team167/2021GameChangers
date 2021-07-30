@@ -20,10 +20,10 @@ public class SwerveDrive {
     public static final double kBumperThickness = Units.inchesToMeters(3.5);
     // NOTE Limit these values during early testing rather than directly slowing the output (after a test on blocks to avoid an accident).
     // NOTE We should test 3.3 m/s and 3.3 m/s^2 (the theoretical free speed is 11.9 ft/s = 3.627 m/s)
-    public static final double kMaxVelocity = 3; // m/s
-    public static final double kMaxAcceleration = 3; // m/s^2
-    public static final double kMaxAngularVelocity = 2 * Math.PI; // rad/s
-    public static final double kMaxAngularAcceleration = 2 * Math.PI; // rad/s^2
+    public static final double kMaxVelocity = 1; // m/s
+    public static final double kMaxAcceleration = 1; // m/s^2
+    public static final double kMaxAngularVelocity = 2 * Math.PI / 3; // rad/s
+    public static final double kMaxAngularAcceleration = 2 * Math.PI / 3; // rad/s^2
     public static final class Ports {
         public static final int kFrontLeftDrive = 3;
         public static final int kFrontLeftAngle = 4;

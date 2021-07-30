@@ -24,9 +24,9 @@ public class SwerveModule {
     private static final double kDriveD = 0;
     private static final double kDriveFF = 0.265;
 
-    private static final double kAngleP = 1.5;
+    private static final double kAngleP = 0.5;
     private static final double kAngleI = 0;
-    private static final double kAngleD = 0.5;
+    private static final double kAngleD = 0.25;
     private static final double kAngleFF = 0;
 
     private final Translation2d location;
